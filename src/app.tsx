@@ -1,9 +1,9 @@
-import './app.css'
+import { css } from '../styled-system/css';
 
 export function App() {
   return (
     <>
-      <h1>Vite + Preact</h1>
+      <h1 className={css({ fontSize: "xx-large", fontWeight: "bold", color: "gray.800" })}>Vite + Preact</h1>
     </>
   )
 }
