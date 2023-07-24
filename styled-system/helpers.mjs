@@ -8,14 +8,10 @@ var newRule = /(?:([\u0080-\uFFFF\w-%@]+) *:? *([^{;]+?);|([^;}{]*?) *{)|(}\s*)/
 var ruleClean = /\/\*[^]*?\*\/|\s\s+|\n/g;
 var astish = (val, tree = [{}]) => {
   const block = newRule.exec((val ?? "").replace(ruleClean, ""));
-  if (!block)
-    return tree[0];
-  if (block[4])
-    tree.shift();
-  else if (block[3])
-    tree.unshift(tree[0][block[3]] = tree[0][block[3]] || {});
-  else
-    tree[0][block[1]] = block[2];
+  if (!block) return tree[0];
+  if (block[4]) tree.shift();
+  else if (block[3]) tree.unshift((tree[0][block[3]] = tree[0][block[3]] || {}));
+  else tree[0][block[1]] = block[2];
   return astish(val, tree);
 };
 
@@ -49,14 +45,12 @@ function toChar(code) {
 function toName(code) {
   let name = "";
   let x;
-  for (x = Math.abs(code); x > 52; x = x / 52 | 0)
-    name = toChar(x % 52) + name;
+  for (x = Math.abs(code); x > 52; x = (x / 52) | 0) name = toChar(x % 52) + name;
   return toChar(x % 52) + name;
 }
 function toPhash(h, x) {
   let i = x.length;
-  while (i)
-    h = h * 33 ^ x.charCodeAt(--i);
+  while (i) h = (h * 33) ^ x.charCodeAt(--i);
   return h;
 }
 function toHash(value) {
@@ -103,8 +97,7 @@ function walkObject(target, predicate, options = {}) {
   return inner(target);
 }
 function mapObject(obj, fn) {
-  if (!isObject(obj))
-    return fn(obj);
+  if (!isObject(obj)) return fn(obj);
   return walkObject(obj, (value) => fn(value));
 }
 
@@ -123,7 +116,7 @@ function normalizeShorthand(styles, context) {
   return walkObject(styles, (v) => v, {
     getKey: (prop) => {
       return hasShorthand ? resolveShorthand(prop) : prop;
-    }
+    },
   });
 }
 function normalizeStyleObject(styles, context) {
@@ -138,8 +131,8 @@ function normalizeStyleObject(styles, context) {
       stop: (value) => Array.isArray(value),
       getKey: (prop) => {
         return hasShorthand ? resolveShorthand(prop) : prop;
-      }
-    }
+      },
+    },
   );
 }
 
@@ -147,9 +140,9 @@ function normalizeStyleObject(styles, context) {
 var fallbackCondition = {
   shift: (v) => v,
   finalize: (v) => v,
-  breakpoints: { keys: [] }
+  breakpoints: { keys: [] },
 };
-var sanitize = (value) => typeof value === "string" ? value.replaceAll(/[\n\s]+/g, " ") : value;
+var sanitize = (value) => (typeof value === "string" ? value.replaceAll(/[\n\s]+/g, " ") : value);
 function createCss(context) {
   const { utility, hash, conditions: conds = fallbackCondition } = context;
   const formatClassName = (str) => [utility.prefix, str].filter(Boolean).join("-");
@@ -169,14 +162,12 @@ function createCss(context) {
     const classNames = /* @__PURE__ */ new Set();
     walkObject(normalizedObject, (value, paths) => {
       const important = isImportant(value);
-      if (value == null)
-        return;
+      if (value == null) return;
       const [prop, ...allConditions] = conds.shift(paths);
       const conditions = filterBaseConditions(allConditions);
       const transformed = utility.transform(prop, withoutImportant(sanitize(value)));
       let className = hashFn(conditions, transformed.className);
-      if (important)
-        className = `${className}!`;
+      if (important) className = `${className}!`;
       classNames.add(className);
     });
     return Array.from(classNames).join(" ");
@@ -188,8 +179,7 @@ function compactStyles(...styles) {
 function createMergeCss(context) {
   function resolve(styles) {
     const allStyles = compactStyles(...styles);
-    if (allStyles.length === 1)
-      return allStyles;
+    if (allStyles.length === 1) return allStyles;
     return allStyles.map((style) => normalizeShorthand(style, context));
   }
   function mergeCss(...styles) {
@@ -220,8 +210,7 @@ var memo = (fn) => {
 var wordRegex = /([A-Z])/g;
 var msRegex = /^ms-/;
 var hypenateProperty = memo((property) => {
-  if (property.startsWith("--"))
-    return property;
+  if (property.startsWith("--")) return property;
   return property.replace(wordRegex, "-$1").replace(msRegex, "-ms-").toLowerCase();
 });
 
@@ -268,14 +257,13 @@ export {
   splitProps,
   toHash,
   walkObject,
-  withoutSpace
+  withoutSpace,
 };
 
-
-export function __spreadValues(a, b){
-  return { ...a, ...b }
+export function __spreadValues(a, b) {
+  return { ...a, ...b };
 }
 
-export function __objRest(source, exclude){
-  return Object.fromEntries(Object.entries(source).filter(([key]) => !exclude.includes(key)))
+export function __objRest(source, exclude) {
+  return Object.fromEntries(Object.entries(source).filter(([key]) => !exclude.includes(key)));
 }
