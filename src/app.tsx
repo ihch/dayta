@@ -1,9 +1,9 @@
 import { useState } from "preact/hooks";
 
-import { css } from "../styled-system/css";
-import { flex } from "../styled-system/patterns";
+import { css } from "@styles/css";
+import { flex } from "@styles/patterns";
 
-import { SubmitButton } from "./components/BaseButton";
+import { SubmitButton } from "~/components/BaseButton";
 import { Heading2 } from "./components/Heading2";
 import { NavigationBar } from "./components/NavigationBar";
 import { TaskForm } from "./components/TaskForm";

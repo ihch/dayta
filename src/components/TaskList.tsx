@@ -1,5 +1,5 @@
 import { useState } from "preact/hooks";
-import { css } from "../../styled-system/css";
+import { css } from "@styles/css";
 
 type TaskProps = {
   id: string;
