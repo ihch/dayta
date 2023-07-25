@@ -1,14 +1,14 @@
 import { useState } from "preact/hooks";
 
-import { css } from "../styled-system/css";
-import { flex } from "../styled-system/patterns";
+import { css } from "@styles/css";
+import { flex } from "@styles/patterns";
 
-import { SubmitButton } from "./BaseButton";
-import { Heading2 } from "./Heading2";
-import { NavigationBar } from "./NavigationBar";
-import { TaskForm } from "./TaskForm";
-import { TaskList, useTasks } from "./TaskList";
-import { TextInput } from "./TextInput";
+import { SubmitButton } from "~/components/BaseButton";
+import { Heading2 } from "./components/Heading2";
+import { NavigationBar } from "./components/NavigationBar";
+import { TaskForm } from "./components/TaskForm";
+import { TaskList, useTasks } from "./components/TaskList";
+import { TextInput } from "./components/TextInput";
 
 export function App() {
   const { tasks, push } = useTasks([{ id: "AB02EF", name: "タスク1" }]);

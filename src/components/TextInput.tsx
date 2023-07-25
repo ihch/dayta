@@ -1,5 +1,5 @@
 import { JSX } from "preact/jsx-runtime";
-import { css } from "../styled-system/css";
+import { css } from "@styles/css";
 
 export function TextInput(props: JSX.IntrinsicElements["input"]) {
   return (
