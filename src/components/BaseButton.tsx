@@ -1,5 +1,5 @@
 import { JSX } from "preact/jsx-runtime";
-import { css } from "../styled-system/css";
+import { css } from "../../styled-system/css";
 
 export function SubmitButton({ text, ...props }: JSX.IntrinsicElements["button"] & { text: string }) {
   return (

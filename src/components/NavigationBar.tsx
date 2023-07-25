@@ -1,5 +1,5 @@
-import { css } from "../styled-system/css";
-import { flex } from "../styled-system/patterns";
+import { css } from "../../styled-system/css";
+import { flex } from "../../styled-system/patterns";
 
 export function NavigationBar({ name, logoSrc, logoAlt }: { name: string; logoSrc: string; logoAlt: string }) {
   return (
