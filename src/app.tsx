@@ -20,9 +20,9 @@ export function App() {
       <div className={css({ py: 6, px: 12 })}>
         <TaskForm
           onSubmit={(e) => {
+            e.preventDefault();
             push({ id: "", name: inputTaskName });
             setInputTaskName("");
-            e.preventDefault();
           }}
         >
           <Heading2 title="新しいタスク" />
