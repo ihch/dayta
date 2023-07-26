@@ -1,39 +1,39 @@
 name: CI
 
 on:
-    push:
-        branches:
-            - main
-    pull_request:
-        branches:
-            - '**/**'
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "**/**"
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        timeout-minutes: 5
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
 
-        steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v1
-              with:
-                  node-version: 18.16.x
-            - name: version check
-              run: node -v
-            - uses: pnpm/action-setup@v2
-              with:
-                version: 8.6.1
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 18.16.x
+      - name: version check
+        run: node -v
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.6.1
 
-            - uses: actions/cache@v2
-              with:
-                  path: '**/node_modules'
-                  key: ${{ runner.os }}-modules-${{ hashFiles('**/pnpm-lock.json') }}
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/pnpm-lock.json') }}
 
-            - name: install
-              run: pnpm i
+      - name: install
+        run: pnpm i
 
-            - name: lint
-              run: pnpm run lint
+      - name: lint
+        run: pnpm run lint
 
-            - name: build
-              run: pnpm run build
+      - name: build
+        run: pnpm run build
