@@ -1,7 +1,7 @@
 import { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
-import { css } from "@styles/css";
-import { flex } from "@styles/patterns";
+import { css } from "@styles/styled-system/css";
+import { flex } from "@styles/styled-system/patterns";
 import { DoneBadge } from "~/components/DoneBadge";
 
 function DraggableElement({

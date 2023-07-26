@@ -1,7 +1,7 @@
 import { useState } from "preact/hooks";
 
-import { css } from "@styles/css";
-import { flex } from "@styles/patterns";
+import { css } from "@styles/styled-system/css";
+import { flex } from "@styles/styled-system/patterns";
 
 import { SubmitButton } from "~/components/BaseButton";
 import { Heading2 } from "./components/Heading2";

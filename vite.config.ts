@@ -7,7 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "~": path.resolve(__dirname, "src"),
-      "@styles": path.resolve(__dirname, "styled-system"),
+      "@styles/styled-system": path.resolve(__dirname, "styled-system"),
     },
   },
   plugins: [preact()],

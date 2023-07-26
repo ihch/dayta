@@ -18,7 +18,7 @@
     "jsxImportSource": "preact",
     "baseUrl": ".",
     "paths": {
-      "@styles/*": ["styled-system/*"],
+      "@styles/styled-system/*": ["styled-system/*"],
       "~/*": ["src/*"]
     }
   },
