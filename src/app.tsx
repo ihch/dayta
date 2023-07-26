@@ -16,20 +16,20 @@ function generateUUID() {
 }
 
 export function App() {
-  const { tasks, push } = useTasks([{ id: generateUUID(), name: "タスク1" }]);
+  const { tasks, push, toggleTaskState, setTasks } = useTasks([{ id: generateUUID(), name: "朝ごはん", isDone: true }]);
   const [inputTaskName, setInputTaskName] = useState("");
 
   return (
     <>
       <NavigationBar name="Dayta" logoSrc="/sushi_icon.png" logoAlt="Dayta" />
-      <div className={css({ py: 6, px: 12 })}>
+      <main className={css({ py: 6, px: 12 })}>
         <TaskForm
           onSubmit={(e) => {
             e.preventDefault();
             if (inputTaskName === "") {
               return;
             }
-            push({ id: "", name: inputTaskName });
+            push({ id: generateUUID(), name: inputTaskName, isDone: false });
             setInputTaskName("");
           }}
         >
@@ -48,10 +48,10 @@ export function App() {
         <div className={css({ mt: 4 })}>
           <Heading2 title="毎日のタスク" />
           <div className={css({ mt: 2 })}>
-            <TaskList tasks={tasks} />
+            <TaskList tasks={tasks} toggleTaskState={toggleTaskState} setTasks={setTasks} />
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }
