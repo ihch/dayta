@@ -2,11 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": false,
@@ -22,17 +18,11 @@
     "jsxImportSource": "preact",
     "baseUrl": ".",
     "paths": {
-      "@styles/*": [
-        "styled-system/*"
-      ],
-      "~/*": [
-        "src/*"
-      ]
+      "@styles/*": ["styled-system/*"],
+      "~/*": ["src/*"]
     }
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
   "references": [
     {
       "path": "./tsconfig.node.json"
