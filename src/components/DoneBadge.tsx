@@ -1,4 +1,4 @@
-import { css } from "@styles/css";
+import { css } from "@styles/styled-system/css";
 
 export function DoneBadge({ isDone }: { isDone: boolean }) {
   const style = css({
