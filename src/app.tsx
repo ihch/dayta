@@ -10,8 +10,13 @@ import { TaskForm } from "./components/TaskForm";
 import { TaskList, useTasks } from "./components/TaskList";
 import { TextInput } from "./components/TextInput";
 
+function generateUUID() {
+  // https://developer.mozilla.org/ja/docs/Web/API/Crypto/randomUUID
+  return self.crypto.randomUUID();
+}
+
 export function App() {
-  const { tasks, push } = useTasks([{ id: "AB02EF", name: "タスク1" }]);
+  const { tasks, push } = useTasks([{ id: generateUUID(), name: "タスク1" }]);
   const [inputTaskName, setInputTaskName] = useState("");
 
   return (
