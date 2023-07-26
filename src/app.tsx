@@ -21,6 +21,9 @@ export function App() {
         <TaskForm
           onSubmit={(e) => {
             e.preventDefault();
+            if (inputTaskName === "") {
+              return;
+            }
             push({ id: "", name: inputTaskName });
             setInputTaskName("");
           }}
