@@ -37,9 +37,21 @@ function TaskListElement({
   toggleTaskStatus: (taskId: TaskProps["id"]) => void;
 }) {
   return (
-    <li>
-      <a className={flex({ gap: 2, mt: 2, color: "gray.800" })} onClick={() => toggleTaskStatus(task.id)}>
-        <span className={css({ mr: 2 })}>{task.name}</span>
+    <li className={css({ maxWidth: 300 })}>
+      <a
+        className={flex({
+          justifyContent: "space-between",
+          mt: 2,
+          padding: 2,
+          color: "gray.800",
+          borderStyle: "solid",
+          borderColor: "gray.400",
+          borderWidth: 1,
+          borderRadius: "sm",
+        })}
+        onClick={() => toggleTaskStatus(task.id)}
+      >
+        <span>{task.name}</span>
         <DoneBadge isDone={task.isDone} />
       </a>
     </li>
