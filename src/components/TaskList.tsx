@@ -1,7 +1,25 @@
+import { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
+import { css } from "@styles/css";
 import { flex } from "@styles/patterns";
 import { DoneBadge } from "~/components/DoneBadge";
-import { css } from "@styles/css";
+
+function DraggableElement({
+  children,
+  onDragStart,
+  onDrop,
+}: {
+  children: ComponentChildren;
+  onDragStart: () => void;
+  // eslint-disable-next-line no-unused-vars
+  onDrop: (e: DragEvent) => void;
+}) {
+  return (
+    <div draggable onDragStart={() => onDragStart()} onDrop={(e) => onDrop(e)} onDragOver={(e) => e.preventDefault()}>
+      {children}
+    </div>
+  );
+}
 
 type TaskProps = {
   id: string;
@@ -25,8 +43,10 @@ export function useTasks(defaultValue: TaskProps[] = []) {
     });
   };
 
-  return { tasks, push, toggleTaskState };
+  return { tasks, push, toggleTaskState, setTasks };
 }
+
+type UseTasksReturnType = ReturnType<typeof useTasks>;
 
 function TaskListElement({
   task,
@@ -61,15 +81,30 @@ function TaskListElement({
 export function TaskList({
   tasks,
   toggleTaskState,
+  setTasks,
 }: {
   tasks: TaskProps[];
   // eslint-disable-next-line no-unused-vars
-  toggleTaskState: (taskId: TaskProps["id"]) => void;
+  toggleTaskState: UseTasksReturnType["toggleTaskState"];
+  // eslint-disable-next-line no-unused-vars
+  setTasks: UseTasksReturnType["setTasks"];
 }) {
+  const [draggingIndex, setDraggingIndex] = useState(0);
   return (
     <ul>
-      {tasks.map((task: TaskProps) => (
-        <TaskListElement key={task.id} task={task} toggleTaskStatus={toggleTaskState} />
+      {tasks.map((task: TaskProps, index) => (
+        <DraggableElement
+          key={task.id}
+          onDragStart={() => setDraggingIndex(index)}
+          onDrop={() => {
+            const newTasks = [...tasks];
+            newTasks.splice(draggingIndex, 1);
+            newTasks.splice(index, 0, tasks[draggingIndex]);
+            setTasks(newTasks);
+          }}
+        >
+          <TaskListElement task={task} toggleTaskStatus={toggleTaskState} />
+        </DraggableElement>
       ))}
     </ul>
   );
