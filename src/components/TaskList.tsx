@@ -68,6 +68,7 @@ function TaskListElement({
           borderColor: "gray.400",
           borderWidth: 1,
           borderRadius: "sm",
+          _hover: { cursor: 'pointer', borderColor: "blue.600", borderWidth: 2 }
         })}
         onClick={() => toggleTaskStatus(task.id)}
       >
