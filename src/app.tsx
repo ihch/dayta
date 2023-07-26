@@ -16,7 +16,7 @@ function generateUUID() {
 }
 
 export function App() {
-  const { tasks, push } = useTasks([{ id: generateUUID(), name: "タスク1" }]);
+  const { tasks, push } = useTasks([{ id: generateUUID(), name: "タスク1", isDone: true }]);
   const [inputTaskName, setInputTaskName] = useState("");
 
   return (
@@ -29,7 +29,7 @@ export function App() {
             if (inputTaskName === "") {
               return;
             }
-            push({ id: "", name: inputTaskName });
+            push({ id: generateUUID(), name: inputTaskName, isDone: false });
             setInputTaskName("");
           }}
         >
