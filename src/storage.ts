@@ -11,7 +11,7 @@ export const saveTasksToStorage = (tasks: TaskProps[]): void => {
   if (!window) {
     throw new NoWindowObjectError();
   }
-  window.localStorage.setItem("tasks", JSON.stringify({ tasks }));
+  window.localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
 export const getTasksFromStorage = (): TaskProps[] => {
