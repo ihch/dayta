@@ -16,7 +16,7 @@ function generateUUID() {
 }
 
 export function App() {
-  const { tasks, push, toggleTaskState, setTasks } = useTasks([{ id: generateUUID(), name: "朝ごはん", isDone: true }]);
+  const { tasks, push, toggleTaskState, changeTaskOrder } = useTasks();
   const [inputTaskName, setInputTaskName] = useState("");
 
   return (
@@ -48,7 +48,7 @@ export function App() {
         <div className={css({ mt: 4 })}>
           <Heading2 title="毎日のタスク" />
           <div className={css({ mt: 2 })}>
-            <TaskList tasks={tasks} toggleTaskState={toggleTaskState} setTasks={setTasks} />
+            <TaskList tasks={tasks} toggleTaskState={toggleTaskState} changeTaskOrder={changeTaskOrder} />
           </div>
         </div>
       </main>
