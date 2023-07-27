@@ -3,6 +3,7 @@ import { useState } from "preact/hooks";
 import { css } from "@styles/styled-system/css";
 import { flex } from "@styles/styled-system/patterns";
 import { DoneBadge } from "~/components/DoneBadge";
+import { getTasksFromStorage, saveTasksToStorage } from "~/storage";
 
 function DraggableElement({
   children,
@@ -21,15 +22,22 @@ function DraggableElement({
   );
 }
 
-type TaskProps = {
+export type TaskProps = {
   id: string;
   name: string;
   isDone: boolean;
 };
 
 export function useTasks(defaultValue: TaskProps[] = []) {
-  const [tasks, setTasks] = useState<TaskProps[]>(defaultValue);
-  const push = (task: TaskProps) => setTasks([...tasks, task]);
+  const initialValue = defaultValue.length === 0 ? getTasksFromStorage() : defaultValue;
+  const [tasks, setTasks] = useState<TaskProps[]>(initialValue);
+
+  const push = (task: TaskProps) => {
+    const newTasks = [...tasks, task];
+    setTasks(newTasks);
+    saveTasksToStorage(newTasks);
+  };
+
   const toggleTaskState = (taskId: TaskProps["id"]) => {
     setTasks((prevTasks) => {
       const newTasks = prevTasks.map((task) => {
@@ -39,11 +47,23 @@ export function useTasks(defaultValue: TaskProps[] = []) {
         return task;
       });
 
+      saveTasksToStorage(newTasks);
       return newTasks;
     });
   };
 
-  return { tasks, push, toggleTaskState, setTasks };
+  const changeTaskOrder = (targetIndex: number, to: number) => {
+    const newTasks = [...tasks];
+    newTasks.splice(targetIndex, 1);
+    newTasks.splice(to, 0, tasks[targetIndex]);
+
+    setTasks(newTasks);
+    saveTasksToStorage(newTasks);
+  };
+
+  // TODO: 作成済みのタスクの削除機能
+
+  return { tasks, push, toggleTaskState, setTasks, changeTaskOrder };
 }
 
 type UseTasksReturnType = ReturnType<typeof useTasks>;
@@ -68,7 +88,7 @@ function TaskListElement({
           borderColor: "gray.400",
           borderWidth: 1,
           borderRadius: "sm",
-          _hover: { cursor: 'pointer', borderColor: "blue.600", borderWidth: 2 }
+          _hover: { cursor: "pointer", borderColor: "blue.600", borderWidth: 2 },
         })}
         onClick={() => toggleTaskStatus(task.id)}
       >
@@ -82,13 +102,13 @@ function TaskListElement({
 export function TaskList({
   tasks,
   toggleTaskState,
-  setTasks,
+  changeTaskOrder,
 }: {
   tasks: TaskProps[];
   // eslint-disable-next-line no-unused-vars
   toggleTaskState: UseTasksReturnType["toggleTaskState"];
   // eslint-disable-next-line no-unused-vars
-  setTasks: UseTasksReturnType["setTasks"];
+  changeTaskOrder: UseTasksReturnType["changeTaskOrder"];
 }) {
   const [draggingIndex, setDraggingIndex] = useState(0);
   return (
@@ -97,12 +117,7 @@ export function TaskList({
         <DraggableElement
           key={task.id}
           onDragStart={() => setDraggingIndex(index)}
-          onDrop={() => {
-            const newTasks = [...tasks];
-            newTasks.splice(draggingIndex, 1);
-            newTasks.splice(index, 0, tasks[draggingIndex]);
-            setTasks(newTasks);
-          }}
+          onDrop={() => changeTaskOrder(draggingIndex, index)}
         >
           <TaskListElement task={task} toggleTaskStatus={toggleTaskState} />
         </DraggableElement>
